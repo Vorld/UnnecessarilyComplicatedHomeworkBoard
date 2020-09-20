@@ -1,0 +1,5 @@
+Emails are case sensitive
+
+Anyone can create an account and delete all tasks
+
+don't use !important for css (install npm or use custom css later)
