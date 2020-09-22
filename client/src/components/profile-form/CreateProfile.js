@@ -3,21 +3,33 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { loadSubjects } from '../../actions/subjects';
+import { updateProfile } from '../../actions/profile';
 
 import Spinner from '../layout/Spinner';
+import Alert from '../layout/Alert';
 
 const CreateProfile = ({
   loadSubjects,
+  updateProfile,
   subjects: { subjects, loading },
   profile: { profile },
 }) => {
   //list of subject inputs
-  const [subjectInputs, setSubjectInputs] = useState([]);
+  const [subjectInputs, setSubjectInputs] = useState(['']);
 
   useEffect(() => {
     loadSubjects();
-    setSubjectInputs(profile.subjects);
-  }, []);
+
+    if (profile) {
+      setSubjectInputs(profile.subjects);
+    }
+  }, []); // eslint-disable-line
+
+  useEffect(() => {
+    if (subjects) {
+      setSubjectInputs([subjects[0].subject]);
+    }
+  }, [subjects]);
 
   const handleSubjectChange = (index, e) => {
     const values = [...subjectInputs];
@@ -39,8 +51,7 @@ const CreateProfile = ({
 
   const onSubmit = (e) => {
     e.preventDefault();
-    //TODO: Create an action that sends in the list of subjects to backend
-    console.log(subjectInputs);
+    updateProfile(subjectInputs);
   };
 
   return loading ? (
@@ -58,6 +69,7 @@ const CreateProfile = ({
               <h4>
                 <b>Create Profile</b>
               </h4>
+              <Alert />
             </div>
 
             <form onSubmit={(e) => onSubmit(e)}>
@@ -119,7 +131,7 @@ const CreateProfile = ({
                   value='Login'
                   className='btn btn-large waves-effect waves-light hoverable black'
                 >
-                  Submit
+                  Update
                 </button>
               </div>
             </form>
@@ -131,6 +143,7 @@ const CreateProfile = ({
 };
 
 CreateProfile.propTypes = {
+  updateProfile: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired,
   subjects: PropTypes.object.isRequired,
 };
@@ -140,4 +153,6 @@ const mapStateToProps = (state) => ({
   profile: state.profile,
 });
 
-export default connect(mapStateToProps, { loadSubjects })(CreateProfile);
+export default connect(mapStateToProps, { loadSubjects, updateProfile })(
+  CreateProfile
+);

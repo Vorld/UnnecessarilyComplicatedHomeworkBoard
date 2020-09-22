@@ -16,7 +16,6 @@ import PrivateRoute from './components/routing/PrivateRoute';
 import { Provider } from 'react-redux';
 import store from './store';
 import { loadUser } from './actions/auth';
-import { loadSubjects } from './actions/subjects';
 
 import setAuthToken from './utils/SetAuthToken';
 

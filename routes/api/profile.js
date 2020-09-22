@@ -33,12 +33,17 @@ router.post(
   '/',
   [
     auth,
-    [check('subjects', 'Subjects are required').isArray().not().isEmpty()],
+    [
+      check('subjects', "If you don't want any subjects drop out lmao")
+        .isArray()
+        .not()
+        .isEmpty(),
+    ],
   ],
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ error: errors.array() });
+      return res.status(400).json({ errors: errors.array() });
     }
 
     const { subjects } = req.body;
