@@ -47,6 +47,13 @@ router.post(
     }
 
     const { subjects } = req.body;
+
+    if (new Set(subjects).size !== subjects.length) {
+      return res.status(400).json({
+        errors: [{ msg: "You can't take the same subject twice" }],
+      });
+    }
+
     const profileFields = {};
     profileFields.user = req.user.id;
 
