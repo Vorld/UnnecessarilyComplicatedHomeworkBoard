@@ -78,6 +78,9 @@ router.delete('/:id', auth, async (req, res) => {
 router.get('/', async (req, res) => {
   try {
     const tasks = await Task.find();
+
+    tasks.sort((a, b) => a.due - b.due);
+
     res.json(tasks);
   } catch (err) {
     console.error(err.message);

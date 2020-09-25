@@ -13,6 +13,11 @@ export const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
         </Link>
       </li>
       <li>
+        <Link className='black-text' to='/tasks'>
+          Tasks
+        </Link>
+      </li>
+      <li>
         <Link className='black-text' onClick={logout} to='/#!'>
           Logout
         </Link>

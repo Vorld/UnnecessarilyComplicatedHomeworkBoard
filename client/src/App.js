@@ -8,6 +8,7 @@ import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 import Dashboard from './components/dashboard/Dashboard';
 import CreateProfile from './components/profile-form/CreateProfile';
+import Tasks from './components/tasks/Tasks';
 import NotFound from './components/layout/NotFound';
 
 import PrivateRoute from './components/routing/PrivateRoute';
@@ -43,6 +44,7 @@ const App = () => {
               path='/create-profile'
               component={CreateProfile}
             />
+            <PrivateRoute exact path='/tasks' component={Tasks} />
             <Route component={NotFound} />
           </Switch>
         </Fragment>

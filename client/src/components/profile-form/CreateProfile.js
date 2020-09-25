@@ -19,15 +19,14 @@ const CreateProfile = ({
 
   useEffect(() => {
     loadSubjects();
-
-    if (profile) {
-      setSubjectInputs(profile.subjects);
-    }
   }, []); // eslint-disable-line
 
   useEffect(() => {
     if (subjects) {
       setSubjectInputs([subjects[0].subject]);
+    }
+    if (profile) {
+      setSubjectInputs(profile.subjects);
     }
   }, [subjects]);
 

@@ -12,3 +12,6 @@ export const PROFILE_ERROR = 'PROFILE_ERROR';
 export const CLEAR_PROFILE = 'CLEAR_PROFILE';
 export const UPDATE_PROFILE = 'UPDATE_PROFILE';
 export const GET_SUBJECTS = 'GET_SUBJECTS';
+export const GET_TASKS = 'GET_TASKS';
+export const TASK_ERROR = 'TASK_ERROR';
+export const DELETE_TASK = 'DELETE_TASK';
