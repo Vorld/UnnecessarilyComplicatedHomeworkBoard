@@ -1,4 +1,4 @@
-import React, { useEffect, Fragment } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getTasks, deleteTask } from '../../actions/task';
@@ -13,16 +13,24 @@ const Tasks = ({
   profile: { profile },
 }) => {
   useEffect(() => {
-    getTasks();
+    getTasks(profile.subjects);
   }, [getTasks]);
 
   return loading ? (
     <Spinner />
   ) : (
     <div className='container'>
-      <ul className='collection with-header'>
-        {tasks.map((task) =>
-          profile.subjects.includes(task.subject) ? (
+      <button
+        className='btn black hoverable waves-effect'
+        style={{ width: '100%' }}
+        //handle add task
+      >
+        Add Task
+      </button>
+
+      {tasks.length > 0 ? (
+        <ul className='collection with-header'>
+          {tasks.map((task) => (
             <li className='collection-item'>
               <div>
                 {task.name}
@@ -38,9 +46,16 @@ const Tasks = ({
                 </Link>
               </div>
             </li>
-          ) : null
-        )}
-      </ul>
+          ))}
+        </ul>
+      ) : (
+        <div className='container valign-wrapper'>
+          <p className='center-align'>
+            Rejoice! You are (temporarily) free from the clutches of the
+            education system!
+          </p>
+        </div>
+      )}
     </div>
   );
 };

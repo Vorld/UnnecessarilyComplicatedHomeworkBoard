@@ -28,7 +28,7 @@ const CreateProfile = ({
     if (profile) {
       setSubjectInputs(profile.subjects);
     }
-  }, [subjects]);
+  }, [subjects, profile]);
 
   const handleSubjectChange = (index, e) => {
     const values = [...subjectInputs];

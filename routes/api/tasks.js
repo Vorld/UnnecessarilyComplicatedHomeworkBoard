@@ -75,7 +75,7 @@ router.delete('/:id', auth, async (req, res) => {
 //@route    Get api/tasks
 //@desc     Get all tasks
 //@access   Private
-router.get('/', async (req, res) => {
+router.get('/', auth, async (req, res) => {
   try {
     const tasks = await Task.find();
 
@@ -87,5 +87,44 @@ router.get('/', async (req, res) => {
     res.status(500).send('Server Error');
   }
 });
+
+//@route    Post api/tasks/me
+//@desc     Get all tasks that apply only to this account
+//@access   Private
+router.post(
+  '/me',
+  [
+    auth,
+    [
+      check(
+        'subjects',
+        'Your subjects were not received by the server'
+      ).isArray(),
+    ],
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { subjects } = req.body;
+
+    try {
+      const tasks = await Task.find();
+
+      tasks.sort((a, b) => a.due - b.due);
+      const filteredTasks = tasks.filter((task) => {
+        return subjects.includes(task.subject);
+      });
+
+      res.json(filteredTasks);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+  }
+);
 
 module.exports = router;

@@ -4,9 +4,18 @@ import { setAlert } from './alert';
 import { GET_TASKS, TASK_ERROR, DELETE_TASK } from './types';
 
 //Get Tasks
-export const getTasks = () => async (dispatch) => {
+export const getTasks = (subjects) => async (dispatch) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+
+  const body = JSON.stringify({ subjects });
+
   try {
-    const res = await axios.get('/api/tasks');
+    const res = await axios.post('/api/tasks/me', body, config);
+    console.log(res);
 
     dispatch({
       type: GET_TASKS,
