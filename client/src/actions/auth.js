@@ -32,6 +32,7 @@ export const loadUser = () => async (dispatch) => {
   }
 };
 
+//TODO: get rid of curly braces in this function
 export const register = ({ name, email, password }) => async (dispatch) => {
   const config = {
     headers: {
