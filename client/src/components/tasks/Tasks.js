@@ -5,17 +5,28 @@ import { getTasks, deleteTask, addTask } from '../../actions/task';
 
 import Spinner from '../layout/Spinner';
 import Alert from '../layout/Alert';
-import { Link } from 'react-router-dom';
 
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  TextField,
+  Button,
+  IconButton,
+  Chip,
+  Select,
+  MenuItem,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemSecondaryAction,
+  CircularProgress,
+  Container,
+  Box,
+  Typography,
+  Icon,
+} from '@material-ui/core/';
 
 const Tasks = ({
   getTasks,
@@ -59,18 +70,27 @@ const Tasks = ({
   };
 
   return loading ? (
-    <Spinner />
+    <Box
+      display='flex'
+      justifyContent='center'
+      m={1}
+      p={1}
+      bgcolor='background.paper'
+    >
+      <CircularProgress />
+    </Box>
   ) : (
-    <div className='container'>
-      <Alert />
-
-      <button
-        className='btn black hoverable waves-effect'
-        style={{ width: '100%' }}
+    <Container>
+      <Button
+        fullWidth
+        variant='contained'
+        color='primary'
         onClick={() => handleClickOpen()}
       >
         Add Task
-      </button>
+      </Button>
+
+      <Alert />
 
       <Dialog
         open={open}
@@ -122,34 +142,32 @@ const Tasks = ({
       </Dialog>
 
       {tasks.length > 0 ? (
-        <ul className='collection with-header'>
+        <List>
           {tasks.map((task) => (
-            <li className='collection-item'>
-              <div>
-                {task.name}
-                <span className='new badge' data-badge-caption=''>
-                  {task.subject}
-                </span>
-                <Link
-                  to='#!'
+            <ListItem className='collection-item'>
+              <ListItemText primary={task.name} />
+              <Chip label={task.subject} />
+              <ListItemSecondaryAction>
+                <IconButton
+                  edge='end'
                   onClick={(e) => deleteTask(task._id)}
                   className='secondary-content right'
                 >
-                  <i className='material-icons black-text'>clear</i>
-                </Link>
-              </div>
-            </li>
+                  <Icon>clear</Icon>
+                </IconButton>
+              </ListItemSecondaryAction>
+            </ListItem>
           ))}
-        </ul>
+        </List>
       ) : (
-        <div className='container valign-wrapper'>
-          <p className='center-align'>
+        <Box m={1} p={1}>
+          <Typography align='center' variant='subtitle1'>
             Rejoice! You are (temporarily) free from the clutches of the
             education system!
-          </p>
-        </div>
+          </Typography>
+        </Box>
       )}
-    </div>
+    </Container>
   );
 };
 
