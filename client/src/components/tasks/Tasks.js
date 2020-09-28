@@ -87,7 +87,7 @@ const Tasks = ({
         color='primary'
         onClick={() => handleClickOpen()}
       >
-        Add Task
+        <Box letterSpacing={1.5}>Add Task</Box>
       </Button>
 
       <Alert />
