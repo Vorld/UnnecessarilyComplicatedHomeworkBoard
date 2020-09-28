@@ -3,12 +3,32 @@ import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
 
+import { Grid, Button } from '@material-ui/core';
+
 const Landing = ({ isAuthenticated }) => {
   if (isAuthenticated) {
     return <Redirect to='/dashboard' />;
   }
 
   return (
+    // <Grid
+    //   container
+    //   direction='row'
+    //   justify='center'
+    //   alignItems='center'
+    //   spacing={3}
+    //   style={{ height: '75vh' }}
+    // >
+    //   <Grid item xs={6} style={{ backgroundColor: '#eeeeee' }}>
+    //     Hi.
+    //   </Grid>
+    //   <Grid item xs={3} style={{ backgroundColor: '#eeeeee' }}>
+    //     <Button>Hi</Button>
+    //   </Grid>
+    //   <Grid item xs={3} style={{ backgroundColor: '#aaaaaa' }}>
+    //     Hi
+    //   </Grid>
+    // </Grid>
     <div style={{ height: '75vh' }} className='container valign-wrapper'>
       <div className='row'>
         <div className='col s12 center-align'>

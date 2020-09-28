@@ -36,6 +36,9 @@ const theme = createMuiTheme({
     secondary: {
       main: '#ffffff',
     },
+    link: {
+      main: '#757ce8',
+    },
   },
 
   typography: {
@@ -54,6 +57,9 @@ const theme = createMuiTheme({
     h4: {
       fontFamily: 'Raleway',
       fontWeight: 500,
+    },
+    subtitle1: {
+      color: '#757575',
     },
     button: {
       fontWeight: 400,

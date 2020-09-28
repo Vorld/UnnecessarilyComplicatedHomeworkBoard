@@ -41,7 +41,7 @@ export const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
   );
 
   return (
-    <AppBar color='secondary'>
+    <AppBar position='sticky' color='secondary'>
       <Toolbar>
         <Box flexGrow={1}>
           <Typography variant='h4'>
@@ -54,26 +54,6 @@ export const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
         )}
       </Toolbar>
     </AppBar>
-    // <div className='navbar-fixed'>
-    //   <nav className='z-depth-0'>
-    //     <div className='nav-wrapper white'>
-    //       <Link
-    //         to='/'
-    //         style={{
-    //           fontFamily: 'raleway',
-    //           fontWeight: 500,
-    //         }}
-    //         className='col s5 brand-logo center black-text'
-    //       >
-    //         <i className='material-icons'>check</i>
-    //         TASKS
-    //       </Link>
-    //       {!loading && (
-    //         <Fragment>{isAuthenticated ? authLinks : guestLinks}</Fragment>
-    //       )}
-    //     </div>
-    //   </nav>
-    // </div>
   );
 };
 
