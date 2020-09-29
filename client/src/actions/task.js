@@ -62,6 +62,11 @@ export const addTask = (name, subject, due, subjects) => async (dispatch) => {
 
     dispatch(getTasks(subjects));
   } catch (err) {
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach((error) => dispatch(setAlert(error.msg, 'error')));
+    }
     dispatch({
       type: TASK_ERROR,
       payload: { msg: err.request.statusText, status: err.request.status },
