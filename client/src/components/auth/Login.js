@@ -43,7 +43,6 @@ const Login = ({ login, isAuthenticated }) => {
     <Container maxWidth='xs' style={{ height: '80vh', marginTop: '32px' }}>
       <CssBaseline />
       <Box display='flex' flexDirection='column' style={{ height: '80vh' }}>
-        <Alert />
         <Link to='/' style={{ textDecoration: 'none' }}>
           <Button startIcon={<Icon>keyboard_backspace</Icon>}>
             Back to home
@@ -63,6 +62,7 @@ const Login = ({ login, isAuthenticated }) => {
             </Link>
           </Typography>
         </p>
+        <Alert />
         <form onSubmit={(e) => onSubmit(e)}>
           <TextField
             variant='outlined'

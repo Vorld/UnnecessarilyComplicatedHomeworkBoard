@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Fragment } from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getTasks, deleteTask, addTask } from '../../actions/task';
@@ -35,14 +36,22 @@ const Tasks = ({
   task: { tasks, loading },
   profile: { profile },
 }) => {
-  useEffect(() => {
-    getTasks(profile.subjects);
-  }, [getTasks]);
-
   const [open, setOpen] = useState(false);
-  const [taskSubject, setTaskSubject] = useState(profile.subjects[0]);
+  const [taskSubject, setTaskSubject] = useState('');
   const [taskName, setTaskName] = useState('');
   const [taskDate, setTaskDate] = useState(new Date());
+
+  useEffect(() => {
+    if (profile) {
+      getTasks(profile.subjects);
+    }
+  }, [getTasks]);
+
+  useEffect(() => {
+    if (profile) {
+      setTaskSubject(profile.subjects[0]);
+    }
+  }, [profile]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -69,102 +78,104 @@ const Tasks = ({
     setOpen(false);
   };
 
-  return loading ? (
-    <Box
-      display='flex'
-      justifyContent='center'
-      m={1}
-      p={1}
-      bgcolor='background.paper'
-    >
+  return loading && profile ? (
+    <Box display='flex' justifyContent='center' m={1} p={1}>
       <CircularProgress />
     </Box>
   ) : (
     <Container>
-      <Button
-        fullWidth
-        variant='contained'
-        color='primary'
-        onClick={() => handleClickOpen()}
-      >
-        <Box letterSpacing={1.5}>Add Task</Box>
-      </Button>
-
-      <Alert />
-
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby='form-dialog-title'
-      >
-        <DialogTitle id='form-dialog-title'>Add Task</DialogTitle>
-        <DialogContent>
-          <TextField
-            autoFocus
-            id='name'
-            label='Name'
-            style={{ marginBottom: '20px' }}
+      {profile ? (
+        <Fragment>
+          <Button
             fullWidth
-            onChange={handleTaskNameChange}
-          />
-
-          <Select
-            value={taskSubject}
-            onChange={handleTaskSubjectChange}
-            fullWidth
-            margin='normal'
-            style={{ marginBottom: '20px' }}
+            variant='contained'
+            color='primary'
+            onClick={() => handleClickOpen()}
           >
-            {profile.subjects.map((subject) => (
-              <MenuItem value={subject}>{subject}</MenuItem>
-            ))}
-          </Select>
-
-          <TextField
-            id='date'
-            label='Due Date'
-            type='date'
-            fullWidth
-            onChange={handleTaskDateChange}
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color='primary'>
-            Cancel
+            <Box letterSpacing={1.5}>Add Task</Box>
           </Button>
-          <Button onClick={handleSubmitTask} color='primary'>
-            Add Task
-          </Button>
-        </DialogActions>
-      </Dialog>
 
-      {tasks.length > 0 ? (
-        <List>
-          {tasks.map((task) => (
-            <ListItem className='collection-item'>
-              <ListItemText primary={task.name} />
-              <Chip label={task.subject} />
-              <ListItemSecondaryAction>
-                <IconButton
-                  edge='end'
-                  onClick={(e) => deleteTask(task._id)}
-                  className='secondary-content right'
-                >
-                  <Icon>clear</Icon>
-                </IconButton>
-              </ListItemSecondaryAction>
-            </ListItem>
-          ))}
-        </List>
+          <Alert />
+
+          <Dialog
+            open={open}
+            onClose={handleClose}
+            aria-labelledby='form-dialog-title'
+          >
+            <DialogTitle id='form-dialog-title'>Add Task</DialogTitle>
+            <DialogContent>
+              <TextField
+                autoFocus
+                id='name'
+                label='Name'
+                style={{ marginBottom: '20px' }}
+                fullWidth
+                onChange={handleTaskNameChange}
+              />
+
+              <Select
+                value={taskSubject}
+                onChange={handleTaskSubjectChange}
+                fullWidth
+                margin='normal'
+                style={{ marginBottom: '20px' }}
+              >
+                {profile.subjects.map((subject) => (
+                  <MenuItem value={subject}>{subject}</MenuItem>
+                ))}
+              </Select>
+
+              <TextField
+                id='date'
+                label='Due Date'
+                type='date'
+                fullWidth
+                onChange={handleTaskDateChange}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose} color='primary'>
+                Cancel
+              </Button>
+              <Button onClick={handleSubmitTask} color='primary'>
+                Add Task
+              </Button>
+            </DialogActions>
+          </Dialog>
+
+          {tasks.length > 0 ? (
+            <List>
+              {tasks.map((task) => (
+                <ListItem className='collection-item'>
+                  <ListItemText primary={task.name} />
+                  <Chip label={task.subject} />
+                  <ListItemSecondaryAction>
+                    <IconButton
+                      edge='end'
+                      onClick={(e) => deleteTask(task._id)}
+                      className='secondary-content right'
+                    >
+                      <Icon>clear</Icon>
+                    </IconButton>
+                  </ListItemSecondaryAction>
+                </ListItem>
+              ))}
+            </List>
+          ) : (
+            <Box m={1} p={1}>
+              <Typography align='center' variant='subtitle1'>
+                Rejoice! You are (temporarily) free from the clutches of the
+                education system!
+              </Typography>
+            </Box>
+          )}
+        </Fragment>
       ) : (
-        <Box m={1} p={1}>
-          <Typography align='center' variant='subtitle1'>
-            Rejoice! You are (temporarily) free from the clutches of the
-            education system!
-          </Typography>
+        <Box display='flex' justifyContent='center' m={1} p={1}>
+          <Typography>Set up your subjects!</Typography>
         </Box>
       )}
     </Container>
