@@ -7,7 +7,7 @@ import { Grid, Button, Container } from '@material-ui/core';
 
 const Landing = ({ isAuthenticated }) => {
   if (isAuthenticated) {
-    return <Redirect to='/dashboard' />;
+    return <Redirect to='/tasks' />;
   }
 
   return (

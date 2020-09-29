@@ -17,11 +17,11 @@ import {
 export const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
   const authLinks = (
     <Fragment>
-      <Link style={{ textDecoration: 'none' }} to='/dashboard'>
-        <Button color='primary'>Dashboard</Button>
-      </Link>
       <Link style={{ textDecoration: 'none' }} to='/tasks'>
         <Button color='primary'>Tasks</Button>
+      </Link>
+      <Link style={{ textDecoration: 'none' }} to='/create-profile'>
+        <Button color='primary'>Subjects</Button>
       </Link>
       <Link style={{ textDecoration: 'none' }} onClick={logout} to='/#!'>
         <Button color='primary'>Log Out</Button>

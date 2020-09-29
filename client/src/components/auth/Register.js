@@ -44,7 +44,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
 
   //Login Redirect
   if (isAuthenticated) {
-    return <Redirect to='/dashboard' />;
+    return <Redirect to='/tasks' />;
   }
 
   return (
