@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getTasks, deleteTask, addTask } from '../../actions/task';
+import { getCurrentProfile } from '../../actions/profile';
 
 import Spinner from '../layout/Spinner';
 import Alert from '../layout/Alert';
@@ -33,25 +34,26 @@ const Tasks = ({
   getTasks,
   addTask,
   deleteTask,
-  task: { tasks, loading },
-  profile: { profile },
+  getCurrentProfile,
+  task: { tasks, loading: taskLoading },
+  profile: { profile, loading: profileLoading },
 }) => {
+  useEffect(() => {
+    getCurrentProfile();
+  }, []);
+
+  useEffect(() => {
+    console.log(profileLoading, profile);
+    if (profile) {
+      console.log('yey');
+      getTasks(profile.subjects);
+    }
+  }, [profile, getTasks]);
+
   const [open, setOpen] = useState(false);
   const [taskSubject, setTaskSubject] = useState('');
   const [taskName, setTaskName] = useState('');
   const [taskDate, setTaskDate] = useState(new Date());
-
-  useEffect(() => {
-    if (profile) {
-      getTasks(profile.subjects);
-    }
-  }, [getTasks]);
-
-  useEffect(() => {
-    if (profile) {
-      setTaskSubject(profile.subjects[0]);
-    }
-  }, [profile]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -78,7 +80,7 @@ const Tasks = ({
     setOpen(false);
   };
 
-  return loading && profile ? (
+  return (profileLoading && profile === null) || taskLoading ? (
     <Box display='flex' justifyContent='center' m={1} p={1}>
       <CircularProgress />
     </Box>
@@ -86,16 +88,18 @@ const Tasks = ({
     <Container>
       {profile ? (
         <Fragment>
+          <Box mt={2} mb={2}>
+            <Alert />
+          </Box>
+
           <Button
             fullWidth
             variant='contained'
             color='primary'
             onClick={() => handleClickOpen()}
           >
-            <Box letterSpacing={1.5}>Add Task</Box>
+            Add Task
           </Button>
-
-          <Alert />
 
           <Dialog
             open={open}
@@ -186,6 +190,7 @@ Tasks.propTypes = {
   getTasks: PropTypes.func.isRequired,
   addTask: PropTypes.func.isRequired,
   deleteTask: PropTypes.func.isRequired,
+  getCurrentProfile: PropTypes.func.isRequired,
   task: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired,
 };
@@ -195,6 +200,9 @@ const mapStateToProps = (state) => ({
   profile: state.profile,
 });
 
-export default connect(mapStateToProps, { getTasks, deleteTask, addTask })(
-  Tasks
-);
+export default connect(mapStateToProps, {
+  getTasks,
+  deleteTask,
+  addTask,
+  getCurrentProfile,
+})(Tasks);

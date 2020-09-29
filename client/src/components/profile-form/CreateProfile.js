@@ -76,7 +76,7 @@ const CreateProfile = ({
       <Box display='flex' flexDirection='column' style={{ height: '80vh' }}>
         <Link to='/' style={{ textDecoration: 'none' }}>
           <Button startIcon={<Icon>keyboard_backspace</Icon>}>
-            Back to dashboard
+            Back to tasks
           </Button>
         </Link>
         <Box fontSize='h4.fontSize'>
