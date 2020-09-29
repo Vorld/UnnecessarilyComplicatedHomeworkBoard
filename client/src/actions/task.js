@@ -15,7 +15,6 @@ export const getTasks = (subjects) => async (dispatch) => {
 
   try {
     const res = await axios.post('/api/tasks/me', body, config);
-    console.log(res);
 
     dispatch({
       type: GET_TASKS,
@@ -49,14 +48,14 @@ export const deleteTask = (id) => async (dispatch) => {
 };
 
 //Add Tasks
-export const addTask = (name, subject, date) => async (dispatch) => {
+export const addTask = (name, subject, due) => async (dispatch) => {
   const config = {
     headers: {
       'Content-Type': 'application/json',
     },
   };
 
-  const body = JSON.stringify({ name, subject, date });
+  const body = JSON.stringify({ name, subject, due });
 
   try {
     const res = await axios.post('/api/tasks', body, config);

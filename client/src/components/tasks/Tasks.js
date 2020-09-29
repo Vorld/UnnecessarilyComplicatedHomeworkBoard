@@ -5,21 +5,15 @@ import { connect } from 'react-redux';
 import { getTasks, deleteTask, addTask } from '../../actions/task';
 import { getCurrentProfile } from '../../actions/profile';
 
+import Moment from 'react-moment';
+
 import Spinner from '../layout/Spinner';
 import Alert from '../layout/Alert';
 import AddTask from './AddTask';
 
 import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  TextField,
-  Button,
   IconButton,
   Chip,
-  Select,
-  MenuItem,
   List,
   ListItem,
   ListItemText,
@@ -65,7 +59,23 @@ const Tasks = ({
             <List>
               {tasks.map((task) => (
                 <ListItem className='collection-item'>
-                  <ListItemText primary={task.name} />
+                  <ListItemText
+                    primary={task.name}
+                    secondary={
+                      <Moment
+                        calendar={{
+                          sameDay: '[Today]',
+                          nextDay: '[Tomorrow]',
+                          nextWeek: '[This] dddd',
+                          lastDay: '[Yesterday]',
+                          lastWeek: '[Last] dddd',
+                          sameElse: 'DD MMM YYYY',
+                        }}
+                      >
+                        {new Date(task.due)}
+                      </Moment>
+                    }
+                  />
                   <Chip label={task.subject} />
                   <ListItemSecondaryAction>
                     <IconButton

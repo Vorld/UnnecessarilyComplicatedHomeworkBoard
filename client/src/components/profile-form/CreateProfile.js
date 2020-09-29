@@ -112,7 +112,6 @@ const CreateProfile = ({
                       {subjects.map((item) => (
                         <MenuItem key={item.value} value={item.subject}>
                           {item.subject}
-                          {console.log(item)}
                         </MenuItem>
                       ))}
                     </Select>

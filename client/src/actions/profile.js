@@ -5,9 +5,6 @@ import { GET_PROFILE, UPDATE_PROFILE, PROFILE_ERROR } from './types';
 export const getCurrentProfile = () => async (dispatch) => {
   try {
     const res = await axios.get('/api/profile/me');
-
-    console.log(res);
-
     dispatch({ type: GET_PROFILE, payload: res.data });
   } catch (err) {
     dispatch({
