@@ -48,7 +48,7 @@ export const deleteTask = (id) => async (dispatch) => {
 };
 
 //Add Tasks
-export const addTask = (name, subject, due) => async (dispatch) => {
+export const addTask = (name, subject, due, subjects) => async (dispatch) => {
   const config = {
     headers: {
       'Content-Type': 'application/json',
@@ -60,10 +60,7 @@ export const addTask = (name, subject, due) => async (dispatch) => {
   try {
     const res = await axios.post('/api/tasks', body, config);
 
-    dispatch({
-      type: ADD_TASK,
-      payload: res.data,
-    });
+    dispatch(getTasks(subjects));
   } catch (err) {
     dispatch({
       type: TASK_ERROR,

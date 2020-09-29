@@ -58,7 +58,7 @@ const AddTask = ({ addTask, profile: { profile } }) => {
   };
 
   const handleSubmitTask = (e) => {
-    addTask(taskName, taskSubject, taskDate);
+    addTask(taskName, taskSubject, taskDate, profile.subjects);
     setOpen(false);
   };
 
