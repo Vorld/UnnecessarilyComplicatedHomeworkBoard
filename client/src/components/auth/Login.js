@@ -54,9 +54,12 @@ const Login = ({ login, isAuthenticated }) => {
         </Box>
         <p>
           <Typography variant='subtitle1'>
-            Don't have an account?{' '}
+            Don't have an account?
             <Link to='/register' style={{ textDecoration: 'none' }}>
-              <MaterialLink style={{ color: '#757ce8' }}>Register</MaterialLink>
+              <MaterialLink style={{ color: '#757ce8' }}>
+                {' '}
+                Register
+              </MaterialLink>
             </Link>
           </Typography>
         </p>

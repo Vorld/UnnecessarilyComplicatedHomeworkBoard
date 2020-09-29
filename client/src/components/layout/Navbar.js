@@ -41,19 +41,22 @@ export const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
   );
 
   return (
-    <AppBar position='sticky' color='secondary'>
-      <Toolbar>
-        <Box flexGrow={1}>
-          <Typography variant='h4'>
-            <Icon>check</Icon> TASKS
-          </Typography>
-        </Box>
+    <Fragment>
+      <AppBar color='secondary'>
+        <Toolbar>
+          <Box flexGrow={1}>
+            <Typography variant='h4'>
+              <Icon>check</Icon> TASKS
+            </Typography>
+          </Box>
 
-        {!loading && (
-          <Fragment>{isAuthenticated ? authLinks : guestLinks}</Fragment>
-        )}
-      </Toolbar>
-    </AppBar>
+          {!loading && (
+            <Fragment>{isAuthenticated ? authLinks : guestLinks}</Fragment>
+          )}
+        </Toolbar>
+      </AppBar>
+      <Toolbar />
+    </Fragment>
   );
 };
 
