@@ -1,0 +1,127 @@
+import React, { Fragment, useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { addTask } from '../../actions/task';
+
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  TextField,
+  Button,
+  Select,
+  MenuItem,
+  Box,
+} from '@material-ui/core/';
+
+const AddTask = ({ addTask, profile: { profile } }) => {
+  const [open, setOpen] = useState(false);
+  const [taskSubject, setTaskSubject] = useState('');
+  const [taskName, setTaskName] = useState('');
+  const [taskDate, setTaskDate] = useState(new Date());
+
+  useEffect(() => {
+    if (profile) {
+      setTaskSubject(profile.subjects[0]);
+    }
+  }, [profile]);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleTaskSubjectChange = (e) => {
+    setTaskSubject(e.target.value);
+  };
+
+  const handleTaskNameChange = (e) => {
+    setTaskName(e.target.value);
+  };
+
+  const handleTaskDateChange = (e) => {
+    setTaskDate(e.target.value);
+  };
+
+  const handleSubmitTask = (e) => {
+    addTask(taskName, taskSubject, taskDate, profile.subjects);
+    setOpen(false);
+  };
+
+  return (
+    <Fragment>
+      <Button
+        fullWidth
+        variant='contained'
+        color='primary'
+        onClick={() => handleClickOpen()}
+      >
+        <Box letterSpacing={1.5}>Add Task</Box>
+      </Button>
+
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby='form-dialog-title'
+      >
+        <DialogTitle id='form-dialog-title'>Add Task</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            id='name'
+            label='Name'
+            style={{ marginBottom: '20px' }}
+            fullWidth
+            onChange={handleTaskNameChange}
+          />
+
+          <Select
+            value={taskSubject}
+            onChange={handleTaskSubjectChange}
+            fullWidth
+            margin='normal'
+            style={{ marginBottom: '20px' }}
+          >
+            {profile.subjects.map((subject) => (
+              <MenuItem value={subject}>{subject}</MenuItem>
+            ))}
+          </Select>
+
+          <TextField
+            id='date'
+            label='Due Date'
+            type='date'
+            fullWidth
+            onChange={handleTaskDateChange}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color='primary'>
+            Cancel
+          </Button>
+          <Button onClick={handleSubmitTask} color='primary'>
+            Add Task
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </Fragment>
+  );
+};
+
+AddTask.propTypes = {
+  addTask: PropTypes.func.isRequired,
+  profile: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  profile: state.profile,
+});
+
+export default connect(mapStateToProps, { addTask })(AddTask);
