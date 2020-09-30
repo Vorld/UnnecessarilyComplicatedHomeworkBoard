@@ -19,14 +19,14 @@ const Landing = ({ isAuthenticated }) => {
         spacing={3}
         style={{ height: '80vh' }}
       >
-        <Grid item xs={2}>
+        <Grid item xs={4}>
           <Link to='/register' style={{ textDecoration: 'none' }}>
             <Button fullWidth variant='contained' color='primary' size='large'>
               Register
             </Button>
           </Link>
         </Grid>
-        <Grid item xs={2}>
+        <Grid item xs={4}>
           <Link to='/login' style={{ textDecoration: 'none' }}>
             <Button fullWidth size='large'>
               Log In
