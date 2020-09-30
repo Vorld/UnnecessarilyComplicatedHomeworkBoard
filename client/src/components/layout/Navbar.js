@@ -12,6 +12,7 @@ import {
   Button,
   Box,
   Icon,
+  IconButton,
 } from '@material-ui/core';
 
 export const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
@@ -24,7 +25,9 @@ export const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
         <Button color='primary'>Subjects</Button>
       </Link>
       <Link style={{ textDecoration: 'none' }} onClick={logout} to='/#!'>
-        <Button color='primary'>Log Out</Button>
+        <IconButton color='primary'>
+          <Icon>exit_to_app</Icon>
+        </IconButton>
       </Link>
     </Fragment>
   );
