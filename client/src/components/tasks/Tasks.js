@@ -1,24 +1,17 @@
-import React, { useEffect, useState, Fragment } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getTasks, deleteTask, addTask } from '../../actions/task';
 import { getCurrentProfile } from '../../actions/profile';
 
-import Spinner from '../layout/Spinner';
+import Moment from 'react-moment';
+
 import Alert from '../layout/Alert';
+import AddTask from './AddTask';
 
 import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  TextField,
-  Button,
   IconButton,
   Chip,
-  Select,
-  MenuItem,
   List,
   ListItem,
   ListItemText,
@@ -32,7 +25,6 @@ import {
 
 const Tasks = ({
   getTasks,
-  addTask,
   deleteTask,
   getCurrentProfile,
   task: { tasks, loading: taskLoading },
@@ -40,47 +32,15 @@ const Tasks = ({
 }) => {
   useEffect(() => {
     getCurrentProfile();
-  }, []);
+  }, []); // eslint-disable-line
 
   useEffect(() => {
-    console.log(profileLoading, profile);
     if (profile) {
-      console.log('yey');
       getTasks(profile.subjects);
     }
-  }, [profile, getTasks]);
+  }, [getTasks, profile]);
 
-  const [open, setOpen] = useState(false);
-  const [taskSubject, setTaskSubject] = useState('');
-  const [taskName, setTaskName] = useState('');
-  const [taskDate, setTaskDate] = useState(new Date());
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleTaskSubjectChange = (e) => {
-    setTaskSubject(e.target.value);
-  };
-
-  const handleTaskNameChange = (e) => {
-    setTaskName(e.target.value);
-  };
-
-  const handleTaskDateChange = (e) => {
-    setTaskDate(e.target.value);
-  };
-
-  const handleSubmitTask = (e) => {
-    addTask(taskName, taskSubject, taskDate);
-    setOpen(false);
-  };
-
-  return (profileLoading && profile === null) || taskLoading ? (
+  return (profileLoading && profile === null) || (taskLoading && profile) ? (
     <Box display='flex' justifyContent='center' m={1} p={1}>
       <CircularProgress />
     </Box>
@@ -89,72 +49,31 @@ const Tasks = ({
       {profile ? (
         <Fragment>
           <Box mt={2} mb={2}>
-            <Alert />
+            <AddTask />
           </Box>
-
-          <Button
-            fullWidth
-            variant='contained'
-            color='primary'
-            onClick={() => handleClickOpen()}
-          >
-            Add Task
-          </Button>
-
-          <Dialog
-            open={open}
-            onClose={handleClose}
-            aria-labelledby='form-dialog-title'
-          >
-            <DialogTitle id='form-dialog-title'>Add Task</DialogTitle>
-            <DialogContent>
-              <TextField
-                autoFocus
-                id='name'
-                label='Name'
-                style={{ marginBottom: '20px' }}
-                fullWidth
-                onChange={handleTaskNameChange}
-              />
-
-              <Select
-                value={taskSubject}
-                onChange={handleTaskSubjectChange}
-                fullWidth
-                margin='normal'
-                style={{ marginBottom: '20px' }}
-              >
-                {profile.subjects.map((subject) => (
-                  <MenuItem value={subject}>{subject}</MenuItem>
-                ))}
-              </Select>
-
-              <TextField
-                id='date'
-                label='Due Date'
-                type='date'
-                fullWidth
-                onChange={handleTaskDateChange}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-              />
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={handleClose} color='primary'>
-                Cancel
-              </Button>
-              <Button onClick={handleSubmitTask} color='primary'>
-                Add Task
-              </Button>
-            </DialogActions>
-          </Dialog>
+          <Alert />
 
           {tasks.length > 0 ? (
             <List>
               {tasks.map((task) => (
                 <ListItem className='collection-item'>
-                  <ListItemText primary={task.name} />
+                  <ListItemText
+                    primary={task.name}
+                    secondary={
+                      <Moment
+                        calendar={{
+                          sameDay: '[Today]',
+                          nextDay: '[Tomorrow]',
+                          nextWeek: '[This] dddd',
+                          lastDay: '[Yesterday]',
+                          lastWeek: '[Last] dddd',
+                          sameElse: 'DD MMM YYYY',
+                        }}
+                      >
+                        {new Date(task.due)}
+                      </Moment>
+                    }
+                  />
                   <Chip label={task.subject} />
                   <ListItemSecondaryAction>
                     <IconButton

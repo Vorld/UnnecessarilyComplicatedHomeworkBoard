@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { setAlert } from './alert';
 
-import { GET_TASKS, TASK_ERROR, DELETE_TASK, ADD_TASK } from './types';
+import { GET_TASKS, TASK_ERROR, DELETE_TASK } from './types';
 
 //Get Tasks
 export const getTasks = (subjects) => async (dispatch) => {
@@ -15,7 +15,6 @@ export const getTasks = (subjects) => async (dispatch) => {
 
   try {
     const res = await axios.post('/api/tasks/me', body, config);
-    console.log(res);
 
     dispatch({
       type: GET_TASKS,
@@ -32,7 +31,7 @@ export const getTasks = (subjects) => async (dispatch) => {
 //delete a certain task
 export const deleteTask = (id) => async (dispatch) => {
   try {
-    const res = await axios.delete(`/api/tasks/${id}`);
+    await axios.delete(`/api/tasks/${id}`);
 
     dispatch({
       type: DELETE_TASK,
@@ -49,23 +48,25 @@ export const deleteTask = (id) => async (dispatch) => {
 };
 
 //Add Tasks
-export const addTask = (name, subject, date) => async (dispatch) => {
+export const addTask = (name, subject, due, subjects) => async (dispatch) => {
   const config = {
     headers: {
       'Content-Type': 'application/json',
     },
   };
 
-  const body = JSON.stringify({ name, subject, date });
+  const body = JSON.stringify({ name, subject, due });
 
   try {
-    const res = await axios.post('/api/tasks', body, config);
+    await axios.post('/api/tasks', body, config);
 
-    dispatch({
-      type: ADD_TASK,
-      payload: res.data,
-    });
+    dispatch(getTasks(subjects));
   } catch (err) {
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach((error) => dispatch(setAlert(error.msg, 'error')));
+    }
     dispatch({
       type: TASK_ERROR,
       payload: { msg: err.request.statusText, status: err.request.status },

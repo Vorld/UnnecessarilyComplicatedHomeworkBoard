@@ -13,7 +13,7 @@ router.post(
   [
     auth,
     [
-      check('name', 'Name is required').not().isEmpty(),
+      check('name', 'Task name is required').not().isEmpty(),
       check('subject', 'Subject is required').not().isEmpty(),
       //   check('due', 'Due Date is required').not().isEmpty(),
     ],
@@ -26,6 +26,8 @@ router.post(
     }
 
     const { name, subject, due } = req.body;
+
+    console.log(due);
 
     try {
       if (!due) {
