@@ -57,6 +57,9 @@ router.post(
   }
 );
 
+//@route    Delete api/tasks
+//@desc     Delete tasks
+//@access   Private
 router.delete('/:id', auth, async (req, res) => {
   try {
     const task = await Task.findById(req.params.id);
@@ -122,7 +125,9 @@ router.post(
 
       tasks.sort((a, b) => a.due - b.due);
       const filteredTasks = tasks.filter((task) => {
-        return subjects.includes(task.subject);
+        return (
+          subjects.includes(task.subject) && new Date(task.due) > new Date()
+        );
       });
 
       res.json(filteredTasks);
