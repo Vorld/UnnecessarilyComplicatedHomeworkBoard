@@ -1,5 +1,0 @@
-{
-  "mongoURI": "mongodb+srv://vorld:Mkprt7371@test-iufpf.gcp.mongodb.net/test?retryWrites=true&w=majority",
-  "jwtSecret": "Dingus"
-}
-
