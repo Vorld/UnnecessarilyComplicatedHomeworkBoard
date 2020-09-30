@@ -93,7 +93,6 @@ const Login = ({ login, isAuthenticated }) => {
           <Box mt={2}>
             <Button
               size='large'
-              type='submit'
               fullWidth
               variant='contained'
               color='primary'

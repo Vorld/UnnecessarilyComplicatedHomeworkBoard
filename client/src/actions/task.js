@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { setAlert } from './alert';
 
-import { GET_TASKS, TASK_ERROR, DELETE_TASK, ADD_TASK } from './types';
+import { GET_TASKS, TASK_ERROR, DELETE_TASK } from './types';
 
 //Get Tasks
 export const getTasks = (subjects) => async (dispatch) => {
@@ -31,7 +31,7 @@ export const getTasks = (subjects) => async (dispatch) => {
 //delete a certain task
 export const deleteTask = (id) => async (dispatch) => {
   try {
-    const res = await axios.delete(`/api/tasks/${id}`);
+    await axios.delete(`/api/tasks/${id}`);
 
     dispatch({
       type: DELETE_TASK,
@@ -58,7 +58,7 @@ export const addTask = (name, subject, due, subjects) => async (dispatch) => {
   const body = JSON.stringify({ name, subject, due });
 
   try {
-    const res = await axios.post('/api/tasks', body, config);
+    await axios.post('/api/tasks', body, config);
 
     dispatch(getTasks(subjects));
   } catch (err) {

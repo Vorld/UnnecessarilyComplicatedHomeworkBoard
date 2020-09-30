@@ -1,5 +1,4 @@
-import React, { useEffect, useState, Fragment } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getTasks, deleteTask, addTask } from '../../actions/task';
@@ -7,7 +6,6 @@ import { getCurrentProfile } from '../../actions/profile';
 
 import Moment from 'react-moment';
 
-import Spinner from '../layout/Spinner';
 import Alert from '../layout/Alert';
 import AddTask from './AddTask';
 
@@ -34,7 +32,7 @@ const Tasks = ({
 }) => {
   useEffect(() => {
     getCurrentProfile();
-  }, []);
+  }, []); // eslint-disable-line
 
   useEffect(() => {
     if (profile) {

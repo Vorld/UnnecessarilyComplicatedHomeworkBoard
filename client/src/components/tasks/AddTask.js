@@ -10,19 +10,9 @@ import {
   DialogTitle,
   TextField,
   Button,
-  IconButton,
-  Chip,
   Select,
   MenuItem,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemSecondaryAction,
-  CircularProgress,
-  Container,
   Box,
-  Typography,
-  Icon,
 } from '@material-ui/core/';
 
 const AddTask = ({ addTask, profile: { profile } }) => {

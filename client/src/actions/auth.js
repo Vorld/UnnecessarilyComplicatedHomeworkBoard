@@ -10,7 +10,6 @@ import {
   LOGOUT,
   CLEAR_PROFILE,
 } from './types';
-import setAuthToken from '../utils/SetAuthToken';
 
 //load user
 export const loadUser = () => async (dispatch) => {
@@ -29,7 +28,7 @@ export const loadUser = () => async (dispatch) => {
 };
 
 //TODO: get rid of curly braces in this function
-export const register = ({ name, email, password }) => async (dispatch) => {
+export const register = (name, email, password) => async (dispatch) => {
   const config = {
     headers: {
       'Content-Type': 'application/json',
