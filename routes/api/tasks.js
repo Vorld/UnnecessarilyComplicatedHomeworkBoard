@@ -27,13 +27,17 @@ router.post(
 
     const { name, subject, due } = req.body;
 
-    console.log(due);
-
     try {
       if (!due) {
         dued = Date.now();
       } else {
         dued = due;
+      }
+
+      if (new Date(due) < new Date()) {
+        return res
+          .status(400)
+          .json({ errors: [{ msg: "Date can't be in the past" }] });
       }
 
       const task = new Task({
