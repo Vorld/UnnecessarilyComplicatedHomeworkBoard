@@ -3,6 +3,10 @@ const app = express();
 const connectDB = require('./config/db');
 const PORT = process.env.PORT || 3001;
 
+//Production
+var compression = require('compression');
+app.use(compression());
+
 //Connect to mongoDB
 connectDB();
 

@@ -27,13 +27,17 @@ router.post(
 
     const { name, subject, due } = req.body;
 
-    console.log(due);
-
     try {
       if (!due) {
         dued = Date.now();
       } else {
         dued = due;
+      }
+
+      if (new Date(due) < new Date()) {
+        return res
+          .status(400)
+          .json({ errors: [{ msg: "Date can't be in the past" }] });
       }
 
       const task = new Task({
@@ -53,6 +57,9 @@ router.post(
   }
 );
 
+//@route    Delete api/tasks
+//@desc     Delete tasks
+//@access   Private
 router.delete('/:id', auth, async (req, res) => {
   try {
     const task = await Task.findById(req.params.id);
@@ -118,7 +125,9 @@ router.post(
 
       tasks.sort((a, b) => a.due - b.due);
       const filteredTasks = tasks.filter((task) => {
-        return subjects.includes(task.subject);
+        return (
+          subjects.includes(task.subject) && new Date(task.due) > new Date()
+        );
       });
 
       res.json(filteredTasks);
