@@ -126,7 +126,8 @@ router.post(
       tasks.sort((a, b) => a.due - b.due);
       const filteredTasks = tasks.filter((task) => {
         return (
-          subjects.includes(task.subject) && new Date(task.due) > new Date()
+          subjects.includes(task.subject) &&
+          new Date(task.due) >= new Date().setHours(0, 0, 0, 0)
         );
       });
 
