@@ -4,6 +4,7 @@ const { check, validationResult } = require('express-validator');
 
 const Task = require('../../models/Task');
 const auth = require('../../middleware/auth');
+const { filter } = require('compression');
 
 //@route    Post api/tasks
 //@desc     Post new task
@@ -29,9 +30,9 @@ router.post(
 
     try {
       if (!due) {
-        dued = Date.now();
+        due_ = Date.now();
       } else {
-        dued = due;
+        due_ = due;
       }
 
       if (new Date(due) < new Date()) {
@@ -40,17 +41,22 @@ router.post(
           .json({ errors: [{ msg: "Date can't be in the past" }] });
       }
 
+      if (subject === 'Personal') {
+        subject_ = req.user.id;
+      } else {
+        subject_ = subject;
+      }
+
       const task = new Task({
         name,
-        subject,
-        due: dued,
+        subject: subject_,
+        due: due_,
       });
 
       await task.save();
 
       res.json(task);
     } catch (err) {
-      console.log(err);
       console.error(err.message);
       res.status(500).send('Server Error');
     }
@@ -81,22 +87,6 @@ router.delete('/:id', auth, async (req, res) => {
   }
 });
 
-//@route    Get api/tasks
-//@desc     Get all tasks
-//@access   Private
-router.get('/', auth, async (req, res) => {
-  try {
-    const tasks = await Task.find();
-
-    tasks.sort((a, b) => a.due - b.due);
-
-    res.json(tasks);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server Error');
-  }
-});
-
 //@route    Post api/tasks/me
 //@desc     Get all tasks that apply only to this account
 //@access   Private
@@ -120,16 +110,26 @@ router.post(
 
     const { subjects } = req.body;
 
+    const subjects_ = [...subjects, req.user.id];
+
     try {
       const tasks = await Task.find();
 
       tasks.sort((a, b) => a.due - b.due);
-      const filteredTasks = tasks.filter((task) => {
+
+      var filteredTasks = tasks.filter((task) => {
         return (
-          subjects.includes(task.subject) &&
+          subjects_.includes(task.subject) &&
           new Date(task.due) >= new Date().setHours(0, 0, 0, 0)
         );
       });
+
+      filteredTasks.forEach((task, index) => {
+        if (task.subject === req.user.id) {
+          task.subject = 'Personal';
+          this[index] = task;
+        }
+      }, filteredTasks);
 
       res.json(filteredTasks);
     } catch (err) {

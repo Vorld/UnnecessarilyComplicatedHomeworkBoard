@@ -17,15 +17,9 @@ import {
 
 const AddTask = ({ addTask, profile: { profile } }) => {
   const [open, setOpen] = useState(false);
-  const [taskSubject, setTaskSubject] = useState('');
+  const [taskSubject, setTaskSubject] = useState('Personal');
   const [taskName, setTaskName] = useState('');
   const [taskDate, setTaskDate] = useState(new Date());
-
-  useEffect(() => {
-    if (profile) {
-      setTaskSubject(profile.subjects[0]);
-    }
-  }, [profile]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -86,6 +80,7 @@ const AddTask = ({ addTask, profile: { profile } }) => {
             margin='normal'
             style={{ marginBottom: '20px' }}
           >
+            <MenuItem value={'Personal'}>{'Personal'}</MenuItem>
             {profile.subjects.map((subject) => (
               <MenuItem value={subject}>{subject}</MenuItem>
             ))}
