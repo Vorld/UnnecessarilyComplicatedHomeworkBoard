@@ -4,7 +4,6 @@ const { check, validationResult } = require('express-validator');
 
 const Task = require('../../models/Task');
 const auth = require('../../middleware/auth');
-const { filter } = require('compression');
 
 //@route    Post api/tasks
 //@desc     Post new task

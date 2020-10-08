@@ -16,6 +16,10 @@ import {
   Button,
   Link as MaterialLink,
   Icon,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
 } from '@material-ui/core';
 
 import '../../App.css';
@@ -24,21 +28,24 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    grade: '',
     password: '',
     password2: '',
   });
 
-  const { name, email, password, password2 } = formData;
+  const { name, email, grade, password, password2 } = formData;
 
-  const onChange = (e) =>
+  const onChange = (e) => {
+    console.log(e.target.name, e.target.value);
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const onSubmit = (e) => {
     e.preventDefault();
     if (password !== password2) {
       setAlert('Passwords do not match!', 'error');
     } else {
-      register(name, email, password);
+      register(name, email, grade, password);
     }
   };
 
@@ -120,6 +127,27 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
             value={password2}
             onChange={(e) => onChange(e)}
           />
+
+          <Box mt={2}>
+            <FormControl variant='outlined' fullWidth required>
+              <InputLabel>Grade</InputLabel>
+              <Select
+                label='Grade'
+                id='grade'
+                name='grade'
+                value={grade}
+                onChange={(e) => onChange(e)}
+                fullWidth
+                required
+              >
+                {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((value) => (
+                  <MenuItem key={value} value={value}>
+                    {value}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Box>
           <Box mt={2} mb={2}>
             <Button
               size='large'

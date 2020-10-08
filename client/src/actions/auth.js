@@ -28,14 +28,14 @@ export const loadUser = () => async (dispatch) => {
 };
 
 //TODO: get rid of curly braces in this function
-export const register = (name, email, password) => async (dispatch) => {
+export const register = (name, email, grade, password) => async (dispatch) => {
   const config = {
     headers: {
       'Content-Type': 'application/json',
     },
   };
 
-  const body = JSON.stringify({ name, email, password });
+  const body = JSON.stringify({ name, email, grade, password });
 
   try {
     const res = await axios.post('/api/users', body, config);
@@ -94,6 +94,7 @@ export const login = (email, password) => async (dispatch) => {
 
 //LOGOUT
 export const logout = () => (dispatch) => {
+  localStorage.removeItem('token');
   dispatch({ type: CLEAR_PROFILE });
   dispatch({ type: LOGOUT });
 };

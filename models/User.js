@@ -14,6 +14,10 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  grade: {
+    type: Number,
+    required: true,
+  },
   date: {
     type: Date,
     default: Date.now,

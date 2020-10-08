@@ -19,6 +19,7 @@ router.post(
       'password',
       'Please enter a password with 6 or more characters'
     ).isLength({ min: 6 }),
+    check('grade', 'Grade is required').isInt().not().isEmpty(),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -27,7 +28,14 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { name, email, password } = req.body;
+    const { name, email, password, grade } = req.body;
+
+    if (grade > 12 || grade < 1) {
+      return res
+        .status(400)
+        .json({ errors: [{ msg: 'Your grade must be between 1 and 12' }] });
+    }
+
     try {
       let user = await User.findOne({ email });
 
@@ -41,6 +49,7 @@ router.post(
         name,
         email,
         password,
+        grade,
       });
 
       //Encypt password
@@ -70,5 +79,18 @@ router.post(
     }
   }
 );
+
+router.get('/update', async (req, res) => {
+  try {
+    const m = await User.updateMany(
+      {},
+      { $set: { grade: 11 } },
+      { multi: true }
+    );
+    res.send(m);
+  } catch (err) {
+    console.error(err);
+  }
+});
 
 module.exports = router;

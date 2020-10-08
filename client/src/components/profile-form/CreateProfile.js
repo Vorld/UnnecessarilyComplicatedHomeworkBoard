@@ -124,7 +124,7 @@ const CreateProfile = ({
               </Box>
             ))}
 
-            <Box mt={2}>
+            <Box mt={2} mb={2}>
               <Button
                 variant='contained'
                 color='primary'
