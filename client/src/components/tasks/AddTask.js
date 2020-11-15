@@ -15,7 +15,7 @@ import {
   Box,
 } from '@material-ui/core/';
 
-const AddTask = ({ addTask, profile: { profile } }) => {
+const AddTask = ({ addTask, profile: { profile }, grade }) => {
   const [open, setOpen] = useState(false);
   const [taskSubject, setTaskSubject] = useState('Personal');
   const [taskName, setTaskName] = useState('');
@@ -42,7 +42,7 @@ const AddTask = ({ addTask, profile: { profile } }) => {
   };
 
   const handleSubmitTask = (e) => {
-    addTask(taskName, taskSubject, taskDate, profile.subjects);
+    addTask(taskName, taskSubject, taskDate, grade, profile.subjects);
     setOpen(false);
   };
 
@@ -113,10 +113,12 @@ const AddTask = ({ addTask, profile: { profile } }) => {
 AddTask.propTypes = {
   addTask: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired,
+  grade: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   profile: state.profile,
+  grade: state.auth.user.grade,
 });
 
 export default connect(mapStateToProps, { addTask })(AddTask);

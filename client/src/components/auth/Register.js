@@ -69,7 +69,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
         <p>
           <Typography variant='subtitle1'>
             Already have an account?
-            <Link to='/register' style={{ textDecoration: 'none' }}>
+            <Link to='/login' style={{ textDecoration: 'none' }}>
               <MaterialLink style={{ color: '#757ce8' }}> Log In</MaterialLink>
             </Link>
           </Typography>
@@ -140,7 +140,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
                 fullWidth
                 required
               >
-                {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((value) => (
+                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((value) => (
                   <MenuItem key={value} value={value}>
                     {value}
                   </MenuItem>

@@ -48,14 +48,16 @@ export const deleteTask = (id) => async (dispatch) => {
 };
 
 //Add Tasks
-export const addTask = (name, subject, due, subjects) => async (dispatch) => {
+export const addTask = (name, subject, due, grade, subjects) => async (
+  dispatch
+) => {
   const config = {
     headers: {
       'Content-Type': 'application/json',
     },
   };
 
-  const body = JSON.stringify({ name, subject, due });
+  const body = JSON.stringify({ name, subject, due, grade });
 
   try {
     await axios.post('/api/tasks', body, config);

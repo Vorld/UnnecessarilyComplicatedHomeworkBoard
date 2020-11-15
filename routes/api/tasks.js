@@ -15,6 +15,7 @@ router.post(
     [
       check('name', 'Task name is required').not().isEmpty(),
       check('subject', 'Subject is required').not().isEmpty(),
+      check('grade', 'Grade is required').not().isEmpty(),
       //   check('due', 'Due Date is required').not().isEmpty(),
     ],
   ],
@@ -25,7 +26,7 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { name, subject, due } = req.body;
+    const { name, subject, due, grade } = req.body;
 
     try {
       if (!due) {
@@ -42,14 +43,17 @@ router.post(
 
       if (subject === 'Personal') {
         subject_ = req.user.id;
+        grade_ = 0;
       } else {
         subject_ = subject;
+        grade_ = grade;
       }
 
       const task = new Task({
         name,
         subject: subject_,
         due: due_,
+        grade: grade_,
       });
 
       await task.save();
@@ -110,6 +114,7 @@ router.post(
     const { subjects } = req.body;
 
     const subjects_ = [...subjects, req.user.id];
+    const grade_ = req.user.grade;
 
     try {
       const tasks = await Task.find();
@@ -119,7 +124,8 @@ router.post(
       var filteredTasks = tasks.filter((task) => {
         return (
           subjects_.includes(task.subject) &&
-          new Date(task.due) >= new Date().setHours(0, 0, 0, 0)
+          new Date(task.due) >= new Date().setHours(0, 0, 0, 0) &&
+          grade_.includes(task.grade)
         );
       });
 

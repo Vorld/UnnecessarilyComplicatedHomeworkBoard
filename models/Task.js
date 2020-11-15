@@ -9,6 +9,10 @@ const TaskSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  grade: {
+    type: Number,
+    required: true,
+  },
   due: {
     type: Date,
     required: true,
