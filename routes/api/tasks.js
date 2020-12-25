@@ -102,19 +102,24 @@ router.post(
         'subjects',
         'Your subjects were not received by the server'
       ).isArray(),
+      check('grade', 'Grade is required').not().isEmpty(),
     ],
   ],
   async (req, res) => {
     const errors = validationResult(req);
 
+    console.log(errors);
+
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { subjects } = req.body;
+    const { subjects, grade } = req.body;
 
     const subjects_ = [...subjects, req.user.id];
-    const grade_ = req.user.grade;
+    const grade_ = grade;
+
+    console.log(grade_);
 
     try {
       const tasks = await Task.find();
@@ -125,7 +130,7 @@ router.post(
         return (
           subjects_.includes(task.subject) &&
           new Date(task.due) >= new Date().setHours(0, 0, 0, 0) &&
-          grade_.includes(task.grade)
+          [grade_, 0].includes(task.grade)
         );
       });
 

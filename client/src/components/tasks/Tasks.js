@@ -29,6 +29,7 @@ const Tasks = ({
   getCurrentProfile,
   task: { tasks, loading: taskLoading },
   profile: { profile, loading: profileLoading },
+  grade,
 }) => {
   useEffect(() => {
     getCurrentProfile();
@@ -36,7 +37,7 @@ const Tasks = ({
 
   useEffect(() => {
     if (profile) {
-      getTasks(profile.subjects);
+      getTasks(profile.subjects, grade);
     }
   }, [getTasks, profile]);
 
@@ -112,11 +113,13 @@ Tasks.propTypes = {
   getCurrentProfile: PropTypes.func.isRequired,
   task: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired,
+  grade: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   task: state.task,
   profile: state.profile,
+  grade: state.auth.user.grade,
 });
 
 export default connect(mapStateToProps, {

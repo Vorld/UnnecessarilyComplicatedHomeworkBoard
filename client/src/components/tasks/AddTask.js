@@ -113,7 +113,7 @@ const AddTask = ({ addTask, profile: { profile }, grade }) => {
 AddTask.propTypes = {
   addTask: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired,
-  grade: PropTypes.object.isRequired,
+  grade: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = (state) => ({

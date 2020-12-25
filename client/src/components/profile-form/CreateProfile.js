@@ -7,6 +7,8 @@ import { updateProfile } from '../../actions/profile';
 
 import Alert from '../layout/Alert';
 
+//TODO: make sure there is no error if there are no subjects added to a particular grade.
+
 import {
   Box,
   CircularProgress,
@@ -25,12 +27,13 @@ const CreateProfile = ({
   updateProfile,
   subjects: { subjects, loading },
   profile: { profile },
+  grade,
 }) => {
   //list of subject inputs
   const [subjectInputs, setSubjectInputs] = useState(['']);
 
   useEffect(() => {
-    loadSubjects();
+    loadSubjects(grade);
   }, []); // eslint-disable-line
 
   useEffect(() => {
@@ -146,11 +149,13 @@ CreateProfile.propTypes = {
   updateProfile: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired,
   subjects: PropTypes.object.isRequired,
+  grade: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   subjects: state.subjects,
   profile: state.profile,
+  grade: state.auth.user.grade,
 });
 
 export default connect(mapStateToProps, { loadSubjects, updateProfile })(
