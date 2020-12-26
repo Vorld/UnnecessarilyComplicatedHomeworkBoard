@@ -7,8 +7,6 @@ import { updateProfile } from '../../actions/profile';
 
 import Alert from '../layout/Alert';
 
-//TODO: make sure there is no error if there are no subjects added to a particular grade.
-
 import {
   Box,
   CircularProgress,

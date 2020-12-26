@@ -39,7 +39,7 @@ const Tasks = ({
     if (profile) {
       getTasks(profile.subjects, grade);
     }
-  }, [getTasks, profile]);
+  }, [getTasks, profile, grade]);
 
   return (profileLoading && profile === null) || (taskLoading && profile) ? (
     <Box display='flex' justifyContent='center' m={1} p={1}>
