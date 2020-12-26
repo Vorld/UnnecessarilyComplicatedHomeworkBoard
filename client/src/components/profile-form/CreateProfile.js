@@ -20,6 +20,7 @@ import {
   MenuItem,
   FormControl,
   IconButton,
+  Typography,
 } from '@material-ui/core';
 
 const CreateProfile = ({
@@ -37,7 +38,7 @@ const CreateProfile = ({
   }, []); // eslint-disable-line
 
   useEffect(() => {
-    if (subjects) {
+    if (subjects && subjects.length > 0) {
       setSubjectInputs([subjects[0].subject]);
     }
     if (profile) {
@@ -85,61 +86,72 @@ const CreateProfile = ({
           <b>Subjects</b>
         </Box>
         <Alert />
-        <p>
-          <form onSubmit={(e) => onSubmit(e)}>
-            <Box mb={2}>
-              <Button
-                fullWidth
-                variant='outlined'
-                color='primary'
-                startIcon={<Icon>add</Icon>}
-                value='Add Subject'
-                onClick={addSubject}
-              >
-                Add
-              </Button>
-            </Box>
 
-            {/* Render the inputs for each subject in subjectInputs */}
-            {subjectInputs.map((val, index) => (
-              <Box mt={1} display='flex'>
-                <Box flexGrow={1} mr={1}>
-                  <FormControl variant='outlined' fullWidth>
-                    <Select
-                      id='subject'
-                      value={subjectInputs[index]}
-                      onChange={(e) => handleSubjectChange(index, e)}
-                      fullWidth
-                    >
-                      {subjects.map((item) => (
-                        <MenuItem key={item.value} value={item.subject}>
-                          {item.subject}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                </Box>
-                <Box>
-                  <IconButton onClick={() => removeSubject(index)}>
-                    <Icon>clear</Icon>
-                  </IconButton>
-                </Box>
+        {subjects.length > 0 ? (
+          <p>
+            <form onSubmit={(e) => onSubmit(e)}>
+              <Box mb={2}>
+                <Button
+                  fullWidth
+                  variant='outlined'
+                  color='primary'
+                  startIcon={<Icon>add</Icon>}
+                  value='Add Subject'
+                  onClick={addSubject}
+                >
+                  Add
+                </Button>
               </Box>
-            ))}
 
-            <Box mt={2} mb={2}>
-              <Button
-                variant='contained'
-                color='primary'
-                type='submit'
-                size='large'
-                fullWidth
-              >
-                Update
-              </Button>
+              {/* Render the inputs for each subject in subjectInputs */}
+              {subjectInputs.map((val, index) => (
+                <Box mt={1} display='flex'>
+                  <Box flexGrow={1} mr={1}>
+                    <FormControl variant='outlined' fullWidth>
+                      <Select
+                        id='subject'
+                        value={subjectInputs[index]}
+                        onChange={(e) => handleSubjectChange(index, e)}
+                        fullWidth
+                      >
+                        {subjects.map((item) => (
+                          <MenuItem key={item.value} value={item.subject}>
+                            {item.subject}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  </Box>
+                  <Box>
+                    <IconButton onClick={() => removeSubject(index)}>
+                      <Icon>clear</Icon>
+                    </IconButton>
+                  </Box>
+                </Box>
+              ))}
+
+              <Box mt={2} mb={2}>
+                <Button
+                  variant='contained'
+                  color='primary'
+                  type='submit'
+                  size='large'
+                  fullWidth
+                >
+                  Update
+                </Button>
+              </Box>
+            </form>
+          </p>
+        ) : (
+          <Box mt={1} display='flex'>
+            <Box flexGrow={1} mr={1}>
+              <Typography>
+                Subjects have not yet been added for your grade!
+              </Typography>
             </Box>
-          </form>
-        </p>
+          </Box>
+        )}
       </Box>
     </Container>
   );

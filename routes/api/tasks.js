@@ -108,8 +108,6 @@ router.post(
   async (req, res) => {
     const errors = validationResult(req);
 
-    console.log(errors);
-
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
@@ -117,9 +115,6 @@ router.post(
     const { subjects, grade } = req.body;
 
     const subjects_ = [...subjects, req.user.id];
-    const grade_ = grade;
-
-    console.log(grade_);
 
     try {
       const tasks = await Task.find();
@@ -130,7 +125,7 @@ router.post(
         return (
           subjects_.includes(task.subject) &&
           new Date(task.due) >= new Date().setHours(0, 0, 0, 0) &&
-          [grade_, 0].includes(task.grade)
+          [grade, 0].includes(task.grade)
         );
       });
 

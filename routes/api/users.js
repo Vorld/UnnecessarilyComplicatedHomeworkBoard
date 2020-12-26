@@ -47,7 +47,7 @@ router.post(
 
       user = new User({
         name,
-        email,
+        email: email.toLowerCase(),
         password,
         grade,
       });

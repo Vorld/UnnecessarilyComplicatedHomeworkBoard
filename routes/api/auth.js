@@ -38,8 +38,11 @@ router.post(
     }
 
     const { email, password } = req.body;
+
+    var emailLowerCase = email.toLowerCase();
+
     try {
-      let user = await User.findOne({ email });
+      let user = await User.findOne({ email: emailLowerCase });
 
       if (!user) {
         return res
